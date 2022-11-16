@@ -7,7 +7,6 @@ module.exports = function( config, userDataPath ) {
 
   const get_user = require('../helpers/get_user')(userDataPath)
 
-  const fusionauth_config = require('../../fusionauth_config.json');
 
   router.get('/', (req, res) => {
 
@@ -30,7 +29,7 @@ module.exports = function( config, userDataPath ) {
           method: 'POST',
           uri: `${config.device_ip}:${config.fusionauth_port}/oauth2/introspect`,
           form: {
-            'client_id': fusionauth_config.client_id,
+            'client_id': config.fusionauth.client_id,
             'token': req.session.token
           }
         },

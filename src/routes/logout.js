@@ -3,7 +3,6 @@ module.exports = function ( config, userDataPath ) {
 	const express = require('express');
 	const router = express.Router();
 
-	const fusionauth_config = require('../../fusionauth_config.json');
 
 
 	router.get('/', (req, res) => {
@@ -19,7 +18,7 @@ module.exports = function ( config, userDataPath ) {
 			req.session.destroy();
 
 			// end FusionAuth session
-			res.redirect(`${config.device_ip}:${config.fusionauth_port}/oauth2/logout?client_id=${fusionauth_config.client_id}`);
+			res.redirect(`${config.device_ip}:${config.fusionauth_port}/oauth2/logout?client_id=${config.fusionauth.client_id}`);
 		}
 
 	});
