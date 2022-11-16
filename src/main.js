@@ -1,12 +1,12 @@
 
-const express = require("express");
-const cors = require('cors')
-const cookieParser = require('cookie-parser');
-const bodyParser = require('body-parser');
-const session = require('express-session');
-
 
 module.exports = function (config) {
+
+	const express = require("express");
+	const cors = require('cors')
+	const cookieParser = require('cookie-parser');
+	const bodyParser = require('body-parser');
+	const session = require('express-session');
 
 	var app = express();
 

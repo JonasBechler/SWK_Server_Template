@@ -20,7 +20,7 @@ module.exports = function( config ) {
           'code': req.query.code,
           'code_verifier': req.session.verifier,
           'grant_type': 'authorization_code',
-          'redirect_uri': `${config.device_ip}:${config.handyticket_port}${fusionauth_config.redirect_uri}`
+          'redirect_uri': `${config.device_ip}:${config.port}${fusionauth_config.redirect_uri}`
         }
       },
 
@@ -30,7 +30,7 @@ module.exports = function( config ) {
         req.session.token = JSON.parse(body).access_token;
         console.log(JSON.parse(body))
         // redirect to the React app
-        res.redirect(`${config.device_ip}:${config.handyticket_port_react}`);
+        res.redirect(`${config.device_ip}:${config.port_react}`);
 
       }
     );

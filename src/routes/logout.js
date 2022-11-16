@@ -11,7 +11,7 @@ module.exports = function (config) {
 		if (req.session.email) {
 			// delete the session
 			req.session.destroy();
-			res.redirect(`${config.device_ip}:${config.handyticket_port_react}`);
+			res.redirect(`${config.device_ip}:${config.port_react}`);
 		}
 
 		else if (req.session.token) {
