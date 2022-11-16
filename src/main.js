@@ -67,6 +67,8 @@ app.use('/', (req, res, next) => {
 app.listen(config.handyticket_port);
 console.log(`Handyticket server started on port ${config.handyticket_port}`);
 
-
+module.exports = function(config){
+  const config = config
+}
 
 
