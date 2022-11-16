@@ -1,21 +1,24 @@
-const express = require('express');
-const router = express.Router();
 
-const config = require('../../../../config.json');
-const fusionauth_config = require('../../fusionauth_config.json');
+module.exports = function (config) {
 
-const pkce = require('../helpers/pkce');
+	const express = require('express');
+	const router = express.Router();
 
-router.get('/', (req, res) => {
-  // Generate and store the PKCE verifier
-  req.session.verifier = pkce.generateVerifier();
+	const fusionauth_config = require('../../fusionauth_config.json');
 
-  // Generate the PKCE challenge
-  const challenge = pkce.generateChallenge(req.session.verifier);
+	const pkce = require('../helpers/pkce');
 
-  // Redirect the user to log in via FusionAuth
-  const redirect_uri = `${config.device_ip}:${config.fusionauth_port}/oauth2/authorize?client_id=${fusionauth_config.client_id}&redirect_uri=${config.device_ip}:${config.handyticket_port}${fusionauth_config.redirect_uri}&response_type=code&code_challenge=${challenge}&code_challenge_method=S256`
-  res.redirect(redirect_uri);
-});
+	router.get('/', (req, res) => {
+		// Generate and store the PKCE verifier
+		req.session.verifier = pkce.generateVerifier();
 
-module.exports = router;
+		// Generate the PKCE challenge
+		const challenge = pkce.generateChallenge(req.session.verifier);
+
+		// Redirect the user to log in via FusionAuth
+		const redirect_uri = `${config.device_ip}:${config.fusionauth_port}/oauth2/authorize?client_id=${fusionauth_config.client_id}&redirect_uri=${config.device_ip}:${config.handyticket_port}${fusionauth_config.redirect_uri}&response_type=code&code_challenge=${challenge}&code_challenge_method=S256`
+		res.redirect(redirect_uri);
+	});
+
+	return router;
+}

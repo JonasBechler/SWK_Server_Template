@@ -1,26 +1,28 @@
-const express = require('express');
-const router = express.Router();
 
-const config = require('../../../../config.json');
-const fusionauth_config = require('../../fusionauth_config.json');
+module.exports = function (config) {
+	const express = require('express');
+	const router = express.Router();
+
+	const fusionauth_config = require('../../fusionauth_config.json');
 
 
-router.get('/', (req, res) => {
+	router.get('/', (req, res) => {
 
-  if (req.session.email) {
-    // delete the session
-    req.session.destroy();
-    res.redirect(`${config.device_ip}:${config.handyticket_port_react}`);
-  }
+		if (req.session.email) {
+			// delete the session
+			req.session.destroy();
+			res.redirect(`${config.device_ip}:${config.handyticket_port_react}`);
+		}
 
-  else if (req.session.token) {
-    // delete the session
-    req.session.destroy();
+		else if (req.session.token) {
+			// delete the session
+			req.session.destroy();
 
-    // end FusionAuth session
-    res.redirect(`${config.device_ip}:${config.fusionauth_port}/oauth2/logout?client_id=${fusionauth_config.client_id}`);
-  }
-  
-});
+			// end FusionAuth session
+			res.redirect(`${config.device_ip}:${config.fusionauth_port}/oauth2/logout?client_id=${fusionauth_config.client_id}`);
+		}
 
-module.exports = router
+	});
+
+	return router
+}
