@@ -5,8 +5,6 @@ module.exports = function( config, userDataPath ) {
   const router = express.Router();
   const request = require('request');
 
-  const fusionauth_config = require('../../fusionauth_config.json');
-
 
   router.get('/', (req, res) => {
     request(
@@ -20,7 +18,7 @@ module.exports = function( config, userDataPath ) {
           'code': req.query.code,
           'code_verifier': req.session.verifier,
           'grant_type': 'authorization_code',
-          'redirect_uri': `${config.device_ip}:${config.port}${fusionauth_config.redirect_uri}`
+          'redirect_uri': `${config.device_ip}:${config.port}${cofig.fusionauth.redirect_uri}`
         }
       },
 
