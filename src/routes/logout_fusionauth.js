@@ -1,5 +1,5 @@
 
-module.exports = function (config) {
+module.exports = function ( config, userDataPath ) {
 
 	const express = require('express');
 	const router = express.Router();

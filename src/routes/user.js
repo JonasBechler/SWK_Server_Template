@@ -1,11 +1,11 @@
 
-module.exports = function( config ) {
+module.exports = function( config, userDataPath ) {
 
   const express = require('express');
   const router = express.Router();
   const request = require('request');
 
-  const get_user = require('../helpers/get_user')
+  const get_user = require('../helpers/get_user')(userDataPath)
 
   const fusionauth_config = require('../../fusionauth_config.json');
 

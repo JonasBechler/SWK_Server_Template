@@ -1,6 +1,6 @@
 
 
-module.exports = function (config) {
+module.exports = function (config, userDataPath) {
 
 	const express = require("express");
 	const cors = require('cors')
@@ -46,12 +46,12 @@ module.exports = function (config) {
 	// app.use(express.static(frontend_dir));
 	// app.use(express.static("public"));
 
-	app.use('/api/user', require('./routes/user')(config));
-	app.use('/api/login', require('./routes/login')(config));
-	app.use('/api/register', require('./routes/register')(config));
-	app.use('/api/logout', require('./routes/logout')(config));
-	app.use('/api/login_kn', require('./routes/login_fusionauth')(config));
-	app.use('/oauth_callback', require('./routes/callback_fusionauth')(config));
+	app.use('/api/user', require('./routes/user')(config, userDataPath));
+	app.use('/api/login', require('./routes/login')(config, userDataPath));
+	app.use('/api/register', require('./routes/register')(config, userDataPath));
+	app.use('/api/logout', require('./routes/logout')(config, userDataPath));
+	app.use('/api/login_kn', require('./routes/login_fusionauth')(config, userDataPath));
+	app.use('/oauth_callback', require('./routes/callback_fusionauth')(config, userDataPath));
 
 	app.use('/', (req, res, next) => {
 		// res.sendFile(path.join(frontend_dir, "index.html"));
