@@ -13,12 +13,12 @@ module.exports = function( config, userDataPath ) {
         method: 'POST',
         uri: `${config.device_ip}:${config.fusionauth_port}/oauth2/token`,
         form: {
-          'client_id': fusionauth_config.client_id,
-          'client_secret': fusionauth_config.client_secret,
+          'client_id': config.fusionauth.client_id,
+          'client_secret': config.fusionauth.client_secret,
           'code': req.query.code,
           'code_verifier': req.session.verifier,
           'grant_type': 'authorization_code',
-          'redirect_uri': `${config.device_ip}:${config.port}${cofig.fusionauth.redirect_uri}`
+          'redirect_uri': `${config.device_ip}:${config.port}${config.fusionauth.redirect_uri}`
         }
       },
 
