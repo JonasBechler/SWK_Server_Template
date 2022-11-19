@@ -25,7 +25,7 @@ module.exports = function (config, userDataPath) {
 	// configure sessions
 	app.use(session(
 		{
-			secret: '1234567890',
+			secret: config.session_secret,
 			resave: false,
 			saveUninitialized: false,
 			cookie: {
