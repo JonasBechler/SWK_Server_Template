@@ -54,6 +54,7 @@ module.exports = function (config, userDataPath) {
 	app.use('/oauth_callback', require('./routes/callback_fusionauth')(config, userDataPath));
 
 	app.use('/', (req, res, next) => {
+		res.redirect(`${config.device_ip}:${config.port_react}`)
 		// res.sendFile(path.join(frontend_dir, "index.html"));
 		return
 	})
