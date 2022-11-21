@@ -1,6 +1,6 @@
 
 
-module.exports = function (config, userDataPath) {
+module.exports = function (config, userDataPath, frontend_dir) {
 
 	const express = require("express");
 	const cors = require('cors')
