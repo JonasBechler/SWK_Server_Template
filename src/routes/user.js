@@ -6,6 +6,8 @@ module.exports = function( config, userDataPath ) {
   const request = require('request');
 
   const get_user = require('../helpers/get_user')(userDataPath)
+  const fusionauth = require("../SWK_Fusionauth_Handler/index")(config)
+
 
 
   router.get('/', (req, res) => {
@@ -23,43 +25,29 @@ module.exports = function( config, userDataPath ) {
     // token in session -> get user data and send it back to the react app
 
     if (req.session.token) {
-      request(
-        // POST request to /introspect endpoint
-        {
-          method: 'POST',
-          uri: `${config.device_ip}:${config.fusionauth_port}/oauth2/introspect`,
-          form: {
-            'client_id': config.fusionauth.client_id,
-            'token': req.session.token
-          }
-        },
+      
+      fusionauth.introspect(req.session.token, introspectResponse => {
+        // valid token -> get more user data and send it back to the react app
+        if (introspectResponse.active) {
 
-        // callback
-        (error, response, body) => {
-          let introspectResponse = JSON.parse(body);
-
-          // valid token -> get more user data and send it back to the react app
-          if (introspectResponse.active) {
-
-            const selected_user = get_user.by_mail(introspectResponse.email);
-            if (selected_user.user === null){
-              // no user available. So register this mail first
-              req.session.destroy();
-              res.send(get_user.details()).end();
-              return
-            }
-            selected_user.user.password = ""
-            return res.send(selected_user).end();
-              
-          }
-
-          // expired token -> send nothing
-          else {
+          const selected_user = get_user.by_mail(introspectResponse.email);
+          if (selected_user.user === null){
+            // no user available. So register this mail first
             req.session.destroy();
             res.send(get_user.details()).end();
+            return
           }
+          selected_user.user.password = ""
+          return res.send(selected_user).end();
+            
         }
-      );
+
+        // expired token -> send nothing
+        else {
+          req.session.destroy();
+          res.send(get_user.details()).end();
+        }
+      })
     }
 
     // no token -> send nothing
