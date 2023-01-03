@@ -22,10 +22,9 @@ module.exports = function ( config, userDataPath ) {
         if (selected_user.user == null) {
             set_user(details)
 
-            req.session.email = details.email
-            req.session.auth_via = "standard"
+            req.session.uuid = details.uuid
             //res.json({}).end()
-            res.status(200).send({});
+             return res.status(200).send({});
         }
 
 

@@ -16,8 +16,7 @@ module.exports = function( config, userDataPath ) {
             res.status(401).send({});
         }
         else{
-            req.session.email = selected_user.user.email
-            req.session.auth_via = "standard"
+            req.session.uuid = selected_user.user.uuid
             //res.json({}).end()
             res.status(200).send({});
             

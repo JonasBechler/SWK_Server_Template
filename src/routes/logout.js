@@ -8,18 +8,20 @@ module.exports = function ( config, userDataPath ) {
 
 	router.get('/', (req, res) => {
 
-		if (req.session.email) {
-			// delete the session
-			req.session.destroy();
-			res.redirect(`${config.device_ip}:${config.port_react}`);
-		}
+		
 
-		else if (req.session.token) {
+		if (req.session.token) {
 			// delete the session
 			req.session.destroy();
 
 			// end FusionAuth session
 			fusionauth.logout(req, res)
+		}
+
+		else if (req.session.uuid) {
+			// delete the session
+			req.session.destroy();
+			res.redirect(`${config.device_ip}:${config.port_react}`);
 		}
 
 	});

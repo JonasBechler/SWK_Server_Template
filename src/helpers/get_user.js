@@ -1,6 +1,14 @@
 module.exports = function(userDataPath){
     var fs = require('fs');
 
+    const blank_user = details => {
+        
+		let user = Object.assign({}, details);
+		Object.keys(user).forEach(key => {
+			user[key] = ""
+		});
+        return user
+    }
 
     function getUserByEmail(email) {
 
@@ -13,33 +21,64 @@ module.exports = function(userDataPath){
             }
         });
 
-        return {details: userData.details, user: selected_user }
+        if (selected_user === null){
+            return {details: userData.details, blank_user: blank_user(userData.details)}
+        }
+        else{
+            return {details: userData.details, user: selected_user}
+        }
     }
 
-    function getUserByFusionAuthID(fa_id) {
+    function getUserByFusionAuthIntrospect(introspectResponse) {
 
         const userData = JSON.parse(fs.readFileSync(userDataPath, {encoding:'utf8', flag:'r'}));
         var selected_user = null;
         
         userData.users.forEach(user => {
-            //TODO: fa_id
-            if (fa_id === user.email) {
+            if (introspectResponse.sub === user.fusionauth_id) {
+                selected_user = user;
+            }
+        });
+
+        if (selected_user === null){
+            const fusionauth_user = blank_user(userData.details);
+            fusionauth_user.fusionauth_id = introspectResponse.sub
+            fusionauth_user.email = introspectResponse.email
+
+            return {details: userData.details, fusionauth_user: fusionauth_user }
+        }
+        else{
+            return {details: userData.details, user: selected_user }
+        }
+
+    }
+
+    function getUserByUUID(uuid) {
+
+        const userData = JSON.parse(fs.readFileSync(userDataPath, {encoding:'utf8', flag:'r'}));
+        var selected_user = null;
+        
+        userData.users.forEach(user => {
+            if (uuid === user.uuid) {
                 selected_user = user;
             }
         });
 
         return {details: userData.details, user: selected_user }
+
     }
 
     function getDetails() {
         const userData = JSON.parse(fs.readFileSync(userDataPath, {encoding:'utf8', flag:'r'}));
 
-        return {details: userData.details }
+        return {details: userData.details, blank_user: blank_user(userData.details)}
     }
+
 
     return {
         by_mail: getUserByEmail, 
-        by_fusionauthID: getUserByFusionAuthID, 
-        details: getDetails
+        by_fusionauthIntrospect: getUserByFusionAuthIntrospect, 
+        by_uuid: getUserByUUID,
+        details: getDetails,
     }
 }
