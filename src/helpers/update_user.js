@@ -7,7 +7,7 @@ module.exports = function(userDataPath){
         const userData = JSON.parse(fs.readFileSync(userDataPath, {encoding:'utf8', flag:'r'}));
 
         userData.users.forEach(user => {
-            if (user_details.uuid === user.uuid) {
+            if (user_details.account_id === user.account_id) {
                 Object.keys(user).forEach(key => {
                     user[key] = user_details[key]
                 })

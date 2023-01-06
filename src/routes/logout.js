@@ -18,7 +18,7 @@ module.exports = function ( config, userDataPath ) {
 			fusionauth.logout(req, res)
 		}
 
-		else if (req.session.uuid) {
+		else if (req.session.account_id) {
 			// delete the session
 			req.session.destroy();
 			res.redirect(`${config.device_ip}:${config.port_react}`);

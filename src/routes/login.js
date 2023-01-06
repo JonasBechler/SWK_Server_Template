@@ -16,7 +16,7 @@ module.exports = function( config, userDataPath ) {
             res.status(401).send({});
         }
         else{
-            req.session.uuid = selected_user.user.uuid
+            req.session.account_id = selected_user.user.account_id
             //res.json({}).end()
             res.status(200).send({});
             

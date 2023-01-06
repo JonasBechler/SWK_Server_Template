@@ -22,7 +22,7 @@ module.exports = function ( config, userDataPath ) {
         if (selected_user.user == null) {
             set_user(details)
 
-            req.session.uuid = details.uuid
+            req.session.account_id = details.account_id
             //res.json({}).end()
              return res.status(200).send({});
         }

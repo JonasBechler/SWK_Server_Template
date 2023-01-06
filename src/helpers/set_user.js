@@ -7,7 +7,7 @@ module.exports = function(userDataPath){
         const userData = JSON.parse(fs.readFileSync(userDataPath, {encoding:'utf8', flag:'r'}));
         console.log(user);
         let new_uuid = uuidv4();
-        user["uuid"] = new_uuid
+        user["account_id"] = new_uuid
         userData.users.push(user)
         fs.writeFileSync(userDataPath, JSON.stringify(userData, null, 4),{encoding:'utf8',flag:'w'})
     }

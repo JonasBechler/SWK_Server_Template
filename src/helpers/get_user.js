@@ -35,14 +35,14 @@ module.exports = function(userDataPath){
         var selected_user = null;
         
         userData.users.forEach(user => {
-            if (introspectResponse.sub === user.fusionauth_id) {
+            if (introspectResponse.sub === user.knlogin_id) {
                 selected_user = user;
             }
         });
 
         if (selected_user === null){
             const fusionauth_user = blank_user(userData.details);
-            fusionauth_user.fusionauth_id = introspectResponse.sub
+            fusionauth_user.knlogin_id = introspectResponse.sub
             fusionauth_user.email = introspectResponse.email
 
             return {details: userData.details, fusionauth_user: fusionauth_user }
@@ -53,13 +53,13 @@ module.exports = function(userDataPath){
 
     }
 
-    function getUserByUUID(uuid) {
+    function getUserByAccount_id(account_id) {
 
         const userData = JSON.parse(fs.readFileSync(userDataPath, {encoding:'utf8', flag:'r'}));
         var selected_user = null;
         
         userData.users.forEach(user => {
-            if (uuid === user.uuid) {
+            if (account_id === user.account_id) {
                 selected_user = user;
             }
         });
@@ -78,7 +78,7 @@ module.exports = function(userDataPath){
     return {
         by_mail: getUserByEmail, 
         by_fusionauthIntrospect: getUserByFusionAuthIntrospect, 
-        by_uuid: getUserByUUID,
+        by_account_id: getUserByAccount_id,
         details: getDetails,
     }
 }
