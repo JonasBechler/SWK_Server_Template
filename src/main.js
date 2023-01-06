@@ -45,14 +45,16 @@ module.exports = function (config, userDataPath, frontend_dir) {
 
 	// app.use(express.static(frontend_dir));
 	// app.use(express.static("public"));
+	
+	app.use('/user', require('./routes/user')(config, userDataPath));
+	app.use('/logout', require('./routes/logout')(config, userDataPath));
 
-	app.use('/api/user', require('./routes/user')(config, userDataPath));
 	app.use('/api/login', require('./routes/login')(config, userDataPath));
 	app.use('/api/register', require('./routes/register')(config, userDataPath));
-	app.use('/api/logout', require('./routes/logout')(config, userDataPath));
-	app.use('/api/login_kn', require('./routes/login_fusionauth')(config, userDataPath));
-	app.use('/api/oauth_callback', require('./routes/callback_fusionauth')(config, userDataPath));
-	app.use('/api/connect_accounts', require('./routes/connect_accounts')(config, userDataPath));
+
+	app.use('/kn/login', require('./routes/login_fusionauth')(config, userDataPath));
+	app.use('/kn/login_callback', require('./routes/callback_fusionauth')(config, userDataPath));
+	app.use('/kn/connect', require('./routes/connect_accounts')(config, userDataPath));
 
 	
 
