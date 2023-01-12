@@ -1,4 +1,5 @@
-
+// Part of Report 
+// ####################################################################################################################
 
 const crypto = require('crypto');
 
@@ -14,10 +15,17 @@ function sha256(buffer) {
   return crypto.createHash("sha256").update(buffer).digest()
 }
 
-module.exports.generateVerifier = () => {
+const generateVerifier = () => {
   return base64URLEncode(crypto.randomBytes(32))
 }
 
-module.exports.generateChallenge = (verifier) => {
+const generateChallenge = (verifier) => {
   return base64URLEncode(sha256(verifier))
+}
+
+// ####################################################################################################################
+
+module.exports = {
+  generateVerifier: generateVerifier,
+  generateChallenge: generateChallenge
 }
