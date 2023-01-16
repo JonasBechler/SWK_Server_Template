@@ -43,8 +43,6 @@ module.exports = function (config, userDataPath, frontend_dir) {
 
 	});
 
-	// app.use(express.static(frontend_dir));
-	// app.use(express.static("public"));
 	
 	app.use('/user', require('./routes/user')(config, userDataPath));
 	app.use('/logout', require('./routes/logout')(config, userDataPath));
@@ -56,13 +54,17 @@ module.exports = function (config, userDataPath, frontend_dir) {
 	app.use('/kn/login_callback', require('./routes/callback_fusionauth')(config, userDataPath));
 	app.use('/kn/connect', require('./routes/connect_accounts')(config, userDataPath));
 
-	
-
-	app.use('/', (req, res, next) => {
-		res.redirect(`${config.device_ip}:${config.port_react}`)
-		// res.sendFile(path.join(frontend_dir, "index.html"));
-		return
-	})
+	try{
+		app.use(express.static(frontend_dir));
+		app.use(express.static("public"));
+	} catch(error){
+		
+		app.use('/', (req, res, next) => {
+			res.redirect(`${config.device_ip}:${config.port_react}`)
+			// res.sendFile(path.join(frontend_dir, "index.html"));
+			return
+		})
+	}
 
 	return app
 }
