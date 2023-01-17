@@ -21,7 +21,7 @@ module.exports = function ( config, userDataPath ) {
 		else if (req.session.account_id) {
 			// delete the session
 			req.session.destroy();
-			res.redirect(`${config.device_ip}:${config.port_react}`);
+			res.redirect(`${config.device_ip}:${config.port}`);
 		}
 
 	});

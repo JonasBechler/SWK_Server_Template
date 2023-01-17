@@ -24,7 +24,7 @@ module.exports = function( config, userDataPath ) {
                         selected_user.user.knlogin_id = selected_fusionauth_user.fusionauth_user.knlogin_id
                         console.log(selected_user.user);
                         update_user(selected_user.user);
-                        res.redirect(`${config.device_ip}:${config.port_react}`);
+                        res.redirect(`${config.device_ip}:${config.port}`);
                         
                     }
                 }
