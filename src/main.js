@@ -61,10 +61,6 @@ module.exports = function (config, userDataPath, frontend_dir) {
 		})
 	}
 	else{
-		app.use('/', (req, res, next) => {
-			res.sendFile(path.join(frontend_dir, "index.html"));
-			return
-		})
 		app.use(express.static(frontend_dir));
 		app.use(express.static("public"));
 	} 
