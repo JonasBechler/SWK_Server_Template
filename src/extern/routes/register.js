@@ -4,8 +4,8 @@ module.exports = function ( config, userDataPath ) {
     const express = require('express');
     const router = express.Router();
 
-    const get_user = require('../helpers/get_user')(userDataPath)
-    const set_user = require('../helpers/set_user')(userDataPath)
+    const get_user = require('../../helpers/get_user')(userDataPath)
+    const set_user = require('../../helpers/set_user')(userDataPath)
 
 
     router.post('/', (req, res) => {
