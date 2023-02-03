@@ -4,8 +4,8 @@ module.exports = function( config, userDataPath ) {
 	const express = require('express');
 	const router = express.Router();
 
-	const get_user = require('../helpers/get_user')(userDataPath)
-	const fusionauth = require("../SWK_Fusionauth_Handler/index")(config)
+	const get_user = require('../../helpers/get_user')(userDataPath)
+	const fusionauth = require("../../SWK_Fusionauth_Handler/index")(config)
 
 
 
