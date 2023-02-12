@@ -29,6 +29,30 @@ module.exports = function(userDataPath){
         }
     }
 
+    function create_fusionAuth_data(introspectResponse){
+        const iat_date = new Date(introspectResponse.iat*1000)
+        const exp_date = new Date(introspectResponse.exp*1000)
+
+        const data = {
+            "details": {
+                "email": "E-Mail",
+                "email_verified": "E-Mail verifiziert",
+                "knlogin_id": "FusionAuth-ID",
+                "iat_date":"Erstellungszeit",
+                "exp_date":"Ablaufzeit",								
+                
+            },
+            "user": {
+                "email": ""+introspectResponse.email,
+                "email_verified": introspectResponse.email_verified?"verifiziert":"nicht verifiziert",
+                "knlogin_id": ""+introspectResponse.sub,
+                "iat_date":""+iat_date.getHours()+":"+iat_date.getMinutes()+":"+iat_date.getSeconds(),
+                "exp_date":""+exp_date.getHours()+":"+exp_date.getMinutes()+":"+exp_date.getSeconds(),		
+            }
+        }
+        return data;
+    }
+
     function getUserByFusionAuthIntrospect(introspectResponse) {
 
         const userData = JSON.parse(fs.readFileSync(userDataPath, {encoding:'utf8', flag:'r'}));
@@ -48,7 +72,7 @@ module.exports = function(userDataPath){
             return {details: userData.details, fusionauth_user: fusionauth_user }
         }
         else{
-            return {details: userData.details, user: selected_user }
+            return {details: userData.details, user: selected_user, fusionAuth_data: create_fusionAuth_data(introspectResponse)}
         }
 
     }
@@ -64,7 +88,7 @@ module.exports = function(userDataPath){
             }
         });
 
-        return {details: userData.details, user: selected_user }
+        return {details: userData.details, user: selected_user}
 
     }
 
